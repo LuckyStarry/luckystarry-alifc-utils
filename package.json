@@ -1,0 +1,26 @@
+{
+  "name": "luckystarry-alifc-utils",
+  "version": "0.0.1-0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "del-cli dist -f",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuckyStarry/luckystarry-alifc-utils.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuckyStarry/luckystarry-alifc-utils/issues"
+  },
+  "homepage": "https://github.com/LuckyStarry/luckystarry-alifc-utils#readme",
+  "devDependencies": {
+    "del-cli": "^3.0.1",
+    "ts-lint": "^4.5.1",
+    "tslint-config-standard": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
