@@ -11,7 +11,7 @@ export class EventContextDefault implements EventContext {
   }
 
   public ensure() {
-    if (this._parsed) {
+    if (!this._parsed) {
       let e = Object.assign({ pathParameters: {}, queryParameters: {}, headers: {} }, JSON.parse(new String(this._event).valueOf()))
       let body = e.body
       if (e.isBase64Encoded) {

@@ -1,3 +1,4 @@
+import { EventResult } from 'event-result'
 import { EventContext } from './event-context'
 import { EventUtils } from './event-utils'
 import { ProfileWrapper } from './profile-wrapper'
@@ -30,5 +31,13 @@ export class EventUtilsDefault implements EventUtils {
       return ProfileWrapperDefault.createFor403(profile)
     }
     return ProfileWrapperDefault.createFor403()
+  }
+
+  public ok(payload: any, message?: string): EventResult {
+    return { code: '0000', payload, message }
+  }
+
+  public fail(message?: string, payload?: any): EventResult {
+    return { code: '3000', payload, message }
   }
 }

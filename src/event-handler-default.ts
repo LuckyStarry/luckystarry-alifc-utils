@@ -33,11 +33,7 @@ export class EventHandlerDefault implements EventHandler {
         'x-app-id': info.name,
         'x-app-ver': info.versionId
       },
-      body: {
-        Success: result.code === '0000',
-        Message: result.message || '',
-        Entity: result.payload
-      }
+      body: { Code: result.code, Success: result.code === '0000', Message: result.message || '', Entity: result.payload }
     })
   }
 }
