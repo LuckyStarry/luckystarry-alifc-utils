@@ -12,6 +12,6 @@ export interface EventUtils {
   ensureStringInRange(value: string, max: number, min?: number): ValueWrapper<string>
   ensureStringMatchRegex(value: string, regex: RegExp): ValueWrapper<string>
 
-  ok(payload: any, message?: string): EventResult
+  ok(payload?: any, message?: string): EventResult
   fail(message?: string, payload?: any): EventResult
 }

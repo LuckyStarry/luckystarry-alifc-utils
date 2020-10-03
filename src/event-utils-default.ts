@@ -79,7 +79,7 @@ export class EventUtilsDefault implements EventUtils {
     return new ValueWrapperDefault(value, true)
   }
 
-  public ok(payload: any, message?: string): EventResult {
+  public ok(payload?: any, message?: string): EventResult {
     return { code: '0000', payload, message }
   }
 
