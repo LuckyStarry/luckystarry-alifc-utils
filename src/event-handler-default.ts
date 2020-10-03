@@ -1,15 +1,15 @@
 import { EventContextFactory } from './event-context-factory'
 import { EventError } from './event-error'
 import { EventHandler } from './event-handler'
+import { EventProcess } from './event-process'
 import { EventResult } from './event-result'
 import { EventUtilsFactory } from './event-utils-factory'
-import { Process } from './process'
 
 export class EventHandlerDefault implements EventHandler {
-  private _process: Process
+  private _process: EventProcess
   private _contextFactory: EventContextFactory
   private _utilsFactory: EventUtilsFactory
-  public constructor(process: Process, contextFactory: EventContextFactory, utilsFactory: EventUtilsFactory) {
+  public constructor(process: EventProcess, contextFactory: EventContextFactory, utilsFactory: EventUtilsFactory) {
     this._process = process
     this._contextFactory = contextFactory
     this._utilsFactory = utilsFactory

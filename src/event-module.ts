@@ -1,7 +1,7 @@
 import { EventHandler } from './event-handler'
+import { EventProcess } from './event-process'
 import { EventRoute } from './event-route'
-import { Process } from './process'
 
 export interface EventModule {
-  register(process: Process | EventRoute[]): EventHandler
+  register(process: EventProcess | EventRoute[]): EventHandler
 }
