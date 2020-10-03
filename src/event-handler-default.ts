@@ -1,4 +1,5 @@
 import { EventContextFactory } from './event-context-factory'
+import { EventError } from './event-error'
 import { EventHandler } from './event-handler'
 import { EventResult } from './event-result'
 import { EventUtilsFactory } from './event-utils-factory'
@@ -21,8 +22,12 @@ export class EventHandlerDefault implements EventHandler {
       let uts = this._utilsFactory.createUtils(ctx)
       result = Object.assign(result, await this._process(ctx, uts))
     } catch (e) {
-      console.error(e)
-      result = Object.assign(result, { code: '7000', message: '系统运行过程中出现异常', status: 503 })
+      if (e instanceof EventError) {
+        result = Object.assign(result, { code: e.code || '7000', message: e.message || '系统运行过程中出现异常', status: 200 })
+      } else {
+        console.error(e)
+        result = Object.assign(result, { code: '7000', message: '系统运行过程中出现异常', status: 503 })
+      }
     }
     let info = Object.assign({ name: 'DEBUG-ONLY', versionId: 'DEBUG-ONLY' }, context.service)
     return callback(null, {
