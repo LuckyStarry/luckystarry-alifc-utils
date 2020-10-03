@@ -26,6 +26,68 @@ describe('./src/event-handler-multi', function () {
         )
     ).not.throw()
   })
+
+  it('EventHandlerMulti 路由选择器按照正确的顺序触发', async function () {
+    let multi = new EventHandlerMulti(
+      [
+        {
+          predicate: () => false,
+          process: async (ctx, utils) => utils.ok(1)
+        },
+        {
+          predicate: () => false,
+          process: async (ctx, utils) => utils.ok(10)
+        },
+        {
+          predicate: () => true,
+          process: async (ctx, utils) => utils.ok(100)
+        },
+        {
+          predicate: () => false,
+          process: async (ctx, utils) => utils.ok(1000)
+        }
+      ],
+      new FakeContextFactory(),
+      new FakeUtilsFactory()
+    )
+    let handled = false
+    await multi.handle({}, {}, function (e, p) {
+      expect(p.body.Entity).eq(100)
+      handled = true
+    })
+    expect(handled).is.true
+  })
+
+  it('EventHandlerMulti 路由选择器按照正确的顺序触发', async function () {
+    let multi = new EventHandlerMulti(
+      [
+        {
+          predicate: () => false,
+          process: async (ctx, utils) => utils.ok(1)
+        },
+        {
+          predicate: () => true,
+          process: async (ctx, utils) => utils.ok(10)
+        },
+        {
+          predicate: () => false,
+          process: async (ctx, utils) => utils.ok(100)
+        },
+        {
+          predicate: () => true,
+          process: async (ctx, utils) => utils.ok(1000)
+        }
+      ],
+      new FakeContextFactory(),
+      new FakeUtilsFactory()
+    )
+    let handled = false
+    await multi.handle({}, {}, function (e, p) {
+      expect(p.body.Entity).eq(10)
+      handled = true
+    })
+    expect(handled).is.true
+  })
 })
 
 class FakeContextFactory extends EventContextFactoryDefault {}
