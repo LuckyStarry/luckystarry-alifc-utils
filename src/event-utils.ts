@@ -7,7 +7,7 @@ export interface EventUtils {
   ensureInRole(role: string): ProfileWrapper
   ensureInAnyRole(roles: string[]): ProfileWrapper
 
-  ensureValueExists<T extends number | string>(value: T): ValueWrapper<T>
+  ensureValueExists<T>(value: T): ValueWrapper<T>
   ensureNumberInRange(value: number, min: number, max: number): ValueWrapper<number>
   ensureStringInRange(value: string, max: number, min?: number): ValueWrapper<string>
   ensureStringMatchRegex(value: string, regex: RegExp): ValueWrapper<string>

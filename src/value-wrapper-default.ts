@@ -26,7 +26,10 @@ export class ValueWrapperDefault<T> implements ValueWrapper<T> {
     if (this._exists) {
       return this._value
     }
-    return this._defaultValue || defaultValue
+    if (defaultValue !== undefined) {
+      return defaultValue
+    }
+    return this._defaultValue
   }
 
   public getOrThrow(message?: string): T {
