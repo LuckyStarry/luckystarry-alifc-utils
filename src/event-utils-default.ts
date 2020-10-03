@@ -5,6 +5,7 @@ import { ProfileWrapper } from './profile-wrapper'
 import { ProfileWrapperDefault } from './profile-wrapper-default'
 import { ValueWrapper } from './value-wrapper'
 import { ValueWrapperDefault } from './value-wrapper-default'
+import { ValueWrapperOutOfRange } from './value-wrapper-out-of-range'
 
 export class EventUtilsDefault implements EventUtils {
   private _context: EventContext
@@ -42,10 +43,10 @@ export class EventUtilsDefault implements EventUtils {
   public ensureNumberInRange(value: number, min: number, max: number): ValueWrapper<number> {
     let target = this.ensureValueExists(value).getOrThrow()
     if (target < min) {
-      return new ValueWrapperDefault(value, false, min)
+      return new ValueWrapperOutOfRange(value, min)
     }
     if (target > max) {
-      return new ValueWrapperDefault(value, false, max)
+      return new ValueWrapperOutOfRange(value, max)
     }
     return new ValueWrapperDefault(value, true)
   }
@@ -53,10 +54,10 @@ export class EventUtilsDefault implements EventUtils {
   public ensureStringInRange(value: string, max: number, min?: number): ValueWrapper<string> {
     let target = this.ensureValueExists(value).getOrThrow()
     if (max && target.length > max) {
-      return new ValueWrapperDefault(value, false)
+      return new ValueWrapperOutOfRange(value)
     }
     if (min && target.length < min) {
-      return new ValueWrapperDefault(value, false)
+      return new ValueWrapperOutOfRange(value)
     }
     return new ValueWrapperDefault(value, true)
   }
@@ -64,7 +65,7 @@ export class EventUtilsDefault implements EventUtils {
   public ensureStringMatchRegex(value: string, regex: RegExp): ValueWrapper<string> {
     let target = this.ensureValueExists(value).getOrThrow()
     if (!regex.test(target)) {
-      return new ValueWrapperDefault(value, false)
+      return new ValueWrapperOutOfRange(value)
     }
     return new ValueWrapperDefault(value, true)
   }

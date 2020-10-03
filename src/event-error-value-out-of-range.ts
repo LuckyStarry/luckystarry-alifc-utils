@@ -1,7 +1,11 @@
 import { EventError } from './event-error'
 
 export class EventErrorValueOutOfRange extends EventError {
-  public constructor(code?: string, message?: string) {
-    super(code || '1002', message || '参数的值不在合法范围内')
+  public constructor(message?: string, code?: string) {
+    super(code || EventErrorValueOutOfRange.DEFAULT_CODE, message || '参数的值不在合法范围内')
+  }
+
+  public static get DEFAULT_CODE(): string {
+    return '1002'
   }
 }

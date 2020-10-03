@@ -1,3 +1,4 @@
+import { EventErrorValueNotExists } from './event-error-value-not-exists'
 import { ValueWrapper } from './value-wrapper'
 
 export class ValueWrapperDefault<T> implements ValueWrapper<T> {
@@ -33,9 +34,9 @@ export class ValueWrapperDefault<T> implements ValueWrapper<T> {
       return this._value
     }
     if (message) {
-      throw new Error(message)
+      throw new EventErrorValueNotExists(message)
     } else {
-      throw new Error('缺少必须的参数')
+      throw new EventErrorValueNotExists()
     }
   }
 }
