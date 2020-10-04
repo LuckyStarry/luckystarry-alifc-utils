@@ -43,7 +43,18 @@ export class EventContextDefault implements EventContext {
   }
 
   public getFromAny(name: string): string | string[] {
-    return this.getFromQuery(name) || this.getFromPath(name) || this.getFromHeaders(name)
+    let value = this.getFromQuery(name)
+    if (value !== undefined) {
+      return value
+    }
+    value = this.getFromPath(name)
+    if (value !== undefined) {
+      return value
+    }
+    value = this.getFromHeaders(name)
+    if (value !== undefined) {
+      return value
+    }
   }
 
   public get body(): any {
