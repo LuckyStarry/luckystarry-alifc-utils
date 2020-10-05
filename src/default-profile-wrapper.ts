@@ -1,7 +1,7 @@
 import { Profile } from './profile'
 import { ProfileWrapper } from './profile-wrapper'
 
-export class ProfileWrapperDefault implements ProfileWrapper {
+export class DefaultProfileWrapper implements ProfileWrapper {
   private _profile: Profile
   private _status: number
   private constructor(profile: Profile, status: number) {
@@ -10,11 +10,11 @@ export class ProfileWrapperDefault implements ProfileWrapper {
   }
 
   public static createFor401(profile?: Profile) {
-    return new ProfileWrapperDefault(profile, 401)
+    return new DefaultProfileWrapper(profile, 401)
   }
 
   public static createFor403(profile?: Profile) {
-    return new ProfileWrapperDefault(profile, 403)
+    return new DefaultProfileWrapper(profile, 403)
   }
 
   public get(): Profile {

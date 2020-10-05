@@ -1,7 +1,7 @@
+import { DefaultValueWrapper } from './default-value-wrapper'
 import { EventErrorValueOutOfRange } from './event-error-value-out-of-range'
-import { ValueWrapperDefault } from './value-wrapper-default'
 
-export class ValueWrapperOutOfRange<T> extends ValueWrapperDefault<T> {
+export class ValueWrapperOutOfRange<T> extends DefaultValueWrapper<T> {
   public constructor(value: T, defaultValue?: T) {
     super(value, false, defaultValue)
   }

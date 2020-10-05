@@ -1,7 +1,7 @@
 import { EventErrorValueNotExists } from './event-error-value-not-exists'
 import { ValueWrapper } from './value-wrapper'
 
-export class ValueWrapperDefault<T> implements ValueWrapper<T> {
+export class DefaultValueWrapper<T> implements ValueWrapper<T> {
   private _value: T
   private _exists: boolean = false
   private _defaultValue: T
@@ -14,6 +14,13 @@ export class ValueWrapperDefault<T> implements ValueWrapper<T> {
     }
 
     this._defaultValue = defaultValue
+  }
+
+  public ensure(): DefaultValueWrapper<T> {
+    if (this._exists) {
+      return this
+    }
+    throw new EventErrorValueNotExists()
   }
 
   public get(): T {

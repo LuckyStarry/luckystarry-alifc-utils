@@ -5,7 +5,7 @@ import { EventProcess } from './event-process'
 import { EventResult } from './event-result'
 import { EventUtilsFactory } from './event-utils-factory'
 
-export class EventHandlerDefault implements EventHandler {
+export class DefaultEventHandler implements EventHandler {
   private _process: EventProcess
   private _contextFactory: EventContextFactory
   private _utilsFactory: EventUtilsFactory

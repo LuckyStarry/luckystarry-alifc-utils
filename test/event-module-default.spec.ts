@@ -1,34 +1,34 @@
 /* tslint:disable */
 import { expect } from 'chai'
-import { EventContextFactoryDefault } from '../src/event-context-factory-default'
-import { EventHandlerDefault } from '../src/event-handler-default'
-import { EventModuleDefault } from '../src/event-module-default'
-import { EventUtilsFactoryDefault } from '../src/event-utils-factory-default'
+import { DefaultEventContextFactory } from '../src/default-event-context-factory'
+import { DefaultEventHandler } from '../src/default-event-handler'
+import { DefaultEventModule } from '../src/default-event-module'
+import { DefaultEventUtilsFactory } from '../src/default-event-utils-factory'
 
 describe('./src/event-module-default', function () {
-  it('EventModuleDefault 存在', function () {
-    expect(EventModuleDefault).not.null
-    expect(EventModuleDefault).not.undefined
-    expect(typeof EventModuleDefault).to.equal('function')
+  it('DefaultEventModule 存在', function () {
+    expect(DefaultEventModule).not.null
+    expect(DefaultEventModule).not.undefined
+    expect(typeof DefaultEventModule).to.equal('function')
   })
 
-  it('EventModuleDefault 初始化正常', function () {
-    expect(() => new EventModuleDefault(new FakeContextFactory(), new FakeUtilsFactory())).not.throw()
+  it('DefaultEventModule 初始化正常', function () {
+    expect(() => new DefaultEventModule(new FakeContextFactory(), new FakeUtilsFactory())).not.throw()
   })
 
-  it('EventModuleDefault.register 正常', function () {
-    expect(new EventModuleDefault(new FakeContextFactory(), new FakeUtilsFactory()).register(async (ctx, utils) => utils.ok())).instanceof(EventHandlerDefault)
+  it('DefaultEventModule.register 正常', function () {
+    expect(new DefaultEventModule(new FakeContextFactory(), new FakeUtilsFactory()).register(async (ctx, utils) => utils.ok())).instanceof(DefaultEventHandler)
   })
 
-  it('EventModuleDefault.router 正常', function () {
-    expect(new EventModuleDefault(new FakeContextFactory(), new FakeUtilsFactory()).router((ctx, utils) => async (ctx, utils) => utils.ok())).instanceof(
-      EventHandlerDefault
+  it('DefaultEventModule.router 正常', function () {
+    expect(new DefaultEventModule(new FakeContextFactory(), new FakeUtilsFactory()).router((ctx, utils) => async (ctx, utils) => utils.ok())).instanceof(
+      DefaultEventHandler
     )
   })
 
-  it('EventModuleDefault.router 正常 (正确执行)', async function () {
+  it('DefaultEventModule.router 正常 (正确执行)', async function () {
     const event = Buffer.from(JSON.stringify({}))
-    let handler = new EventModuleDefault(new FakeContextFactory(), new FakeUtilsFactory()).router((ctx, utils) => async (ctx, utils) => utils.ok(12345))
+    let handler = new DefaultEventModule(new FakeContextFactory(), new FakeUtilsFactory()).router((ctx, utils) => async (ctx, utils) => utils.ok(12345))
     let handled = false
     await handler.handle(event, {}, (e, p) => {
       expect(p.body.Entity).eq(12345)
@@ -37,9 +37,9 @@ describe('./src/event-module-default', function () {
     expect(handled).is.true
   })
 
-  it('EventModuleDefault.router 正常 (未匹配任何规则)', async function () {
+  it('DefaultEventModule.router 正常 (未匹配任何规则)', async function () {
     const event = Buffer.from(JSON.stringify({}))
-    let handler = new EventModuleDefault(new FakeContextFactory(), new FakeUtilsFactory()).router((ctx, utils) => null)
+    let handler = new DefaultEventModule(new FakeContextFactory(), new FakeUtilsFactory()).router((ctx, utils) => null)
     let handled = false
     await handler.handle(event, {}, (e, p) => {
       handled = true
@@ -49,18 +49,18 @@ describe('./src/event-module-default', function () {
     expect(handled).is.true
   })
 
-  it('EventModuleDefault.routes 正常', function () {
+  it('DefaultEventModule.routes 正常', function () {
     expect(
-      new EventModuleDefault(new FakeContextFactory(), new FakeUtilsFactory()).routes([{ predicate: () => true, process: async (ctx, utils) => utils.ok() }])
-    ).instanceof(EventHandlerDefault)
+      new DefaultEventModule(new FakeContextFactory(), new FakeUtilsFactory()).routes([{ predicate: () => true, process: async (ctx, utils) => utils.ok() }])
+    ).instanceof(DefaultEventHandler)
   })
 
-  it('EventModuleDefault.routes 正常 (按顺序触发)', async function () {
+  it('DefaultEventModule.routes 正常 (按顺序触发)', async function () {
     const event = Buffer.from(JSON.stringify({}))
     const context_factory = new FakeContextFactory()
     const utils_factory = new FakeUtilsFactory()
     {
-      let handler = new EventModuleDefault(context_factory, utils_factory).routes([
+      let handler = new DefaultEventModule(context_factory, utils_factory).routes([
         { predicate: () => true, process: async (ctx, utils) => utils.ok(1) },
         { predicate: () => false, process: async (ctx, utils) => utils.ok(10) },
         { predicate: () => true, process: async (ctx, utils) => utils.ok(100) },
@@ -74,7 +74,7 @@ describe('./src/event-module-default', function () {
       expect(handled).is.true
     }
     {
-      let handler = new EventModuleDefault(context_factory, utils_factory).routes([
+      let handler = new DefaultEventModule(context_factory, utils_factory).routes([
         { predicate: () => false, process: async (ctx, utils) => utils.ok(1) },
         { predicate: () => true, process: async (ctx, utils) => utils.ok(10) },
         { predicate: () => true, process: async (ctx, utils) => utils.ok(100) },
@@ -88,7 +88,7 @@ describe('./src/event-module-default', function () {
       expect(handled).is.true
     }
     {
-      let handler = new EventModuleDefault(context_factory, utils_factory).routes([
+      let handler = new DefaultEventModule(context_factory, utils_factory).routes([
         { predicate: () => false, process: async (ctx, utils) => utils.ok(1) },
         { predicate: () => false, process: async (ctx, utils) => utils.ok(10) },
         { predicate: () => false, process: async (ctx, utils) => utils.ok(100) },
@@ -104,5 +104,5 @@ describe('./src/event-module-default', function () {
   })
 })
 
-class FakeContextFactory extends EventContextFactoryDefault {}
-class FakeUtilsFactory extends EventUtilsFactoryDefault {}
+class FakeContextFactory extends DefaultEventContextFactory {}
+class FakeUtilsFactory extends DefaultEventUtilsFactory {}

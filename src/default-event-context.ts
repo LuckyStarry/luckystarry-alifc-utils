@@ -1,7 +1,7 @@
 import { EventContext } from './event-context'
 import { Profile } from './profile'
 
-export class EventContextDefault implements EventContext {
+export class DefaultEventContext implements EventContext {
   private _parsed: { pathParameters: any; queryParameters: any; headers: any; body: any }
   private _event: any
   private _context: any
