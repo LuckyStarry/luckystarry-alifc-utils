@@ -22,7 +22,7 @@ export class DefaultProfileWrapper implements ProfileWrapper {
   }
 
   public getOrThrow(message?: string): Profile {
-    let profile = this._profile
+    const profile = this._profile
     if (profile) {
       return profile
     }

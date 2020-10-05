@@ -18,8 +18,8 @@ export class DefaultEventHandler implements EventHandler {
   public async handle(event: any, context: any, callback: any): Promise<void> {
     let result: EventResult = { code: '0000', message: '', payload: null, status: 200 }
     try {
-      let ctx = this._contextFactory.createContext(event, context)
-      let uts = this._utilsFactory.createUtils(ctx)
+      const ctx = this._contextFactory.createContext(event, context)
+      const uts = this._utilsFactory.createUtils(ctx)
       result = Object.assign(result, await this._process(ctx, uts))
     } catch (e) {
       if (e instanceof EventError) {
@@ -29,7 +29,7 @@ export class DefaultEventHandler implements EventHandler {
         result = Object.assign(result, { code: '7000', message: '系统运行过程中出现异常', status: 503 })
       }
     }
-    let info = Object.assign({ name: 'DEBUG-ONLY', versionId: 'DEBUG-ONLY' }, context.service)
+    const info = Object.assign({ name: 'DEBUG-ONLY', versionId: 'DEBUG-ONLY' }, context.service)
     return callback(null, {
       isBase64Encoded: false,
       statusCode: 200,

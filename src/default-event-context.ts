@@ -12,10 +12,10 @@ export class DefaultEventContext implements EventContext {
 
   public ensure() {
     if (!this._parsed) {
-      let e = Object.assign({ pathParameters: {}, queryParameters: {}, headers: {} }, JSON.parse(new String(this._event).valueOf()))
+      const e = Object.assign({ pathParameters: {}, queryParameters: {}, headers: {} }, JSON.parse(new String(this._event).valueOf()))
       let body = e.body
       if (e.isBase64Encoded) {
-        let bytes = Buffer.from(e.body, 'base64')
+        const bytes = Buffer.from(e.body, 'base64')
         if (bytes) {
           body = JSON.parse(bytes.toString())
         }
@@ -62,10 +62,10 @@ export class DefaultEventContext implements EventContext {
   }
 
   public get profile(): Profile {
-    let sub = this.getFromHeaders('x-jwt-sub')
-    let text = this.getFromHeaders('x-jwt-profile')
+    const sub = this.getFromHeaders('x-jwt-sub')
+    const text = this.getFromHeaders('x-jwt-profile')
     if (sub && text) {
-      let json = JSON.parse(text)
+      const json = JSON.parse(text)
       if (json) {
         return {
           id: sub || '',

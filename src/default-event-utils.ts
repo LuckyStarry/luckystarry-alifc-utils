@@ -16,13 +16,13 @@ export class DefaultEventUtils implements EventUtils {
   }
 
   public ensureLogin(): ProfileWrapper {
-    let profile = this._context.profile
+    const profile = this._context.profile
     return DefaultProfileWrapper.createFor401(profile)
   }
 
   public ensureInRole(role: string): ProfileWrapper {
-    let profile = this.ensureLogin().getOrThrow()
-    let grants = profile.roles || []
+    const profile = this.ensureLogin().getOrThrow()
+    const grants = profile.roles || []
     if (grants.includes(role)) {
       return DefaultProfileWrapper.createFor403(profile)
     }
@@ -30,8 +30,8 @@ export class DefaultEventUtils implements EventUtils {
   }
 
   public ensureInAnyRole(roles: string[]): ProfileWrapper {
-    let profile = this.ensureLogin().getOrThrow()
-    let grants = profile.roles || []
+    const profile = this.ensureLogin().getOrThrow()
+    const grants = profile.roles || []
     if (grants.some((grant) => roles.includes(grant))) {
       return DefaultProfileWrapper.createFor403(profile)
     }
@@ -47,7 +47,7 @@ export class DefaultEventUtils implements EventUtils {
   }
 
   public ensureNumberInRange(value: number, min: number, max: number): ValueWrapperNumber {
-    let target = this.ensureValueExists(value).getOrThrow()
+    const target = this.ensureValueExists(value).getOrThrow()
     if (target === null) {
       return new ValueWrapperOutOfRange(value, min)
     }
@@ -61,7 +61,7 @@ export class DefaultEventUtils implements EventUtils {
   }
 
   public ensureStringInRange(value: string, max: number, min?: number): ValueWrapper<string> {
-    let target = this.ensureValueExists(value).getOrThrow()
+    const target = this.ensureValueExists(value).getOrThrow()
     if (target === null) {
       return new ValueWrapperOutOfRange(value)
     }
@@ -75,7 +75,7 @@ export class DefaultEventUtils implements EventUtils {
   }
 
   public ensureStringMatchRegex(value: string, regex: RegExp): ValueWrapper<string> {
-    let target = this.ensureValueExists(value).getOrThrow()
+    const target = this.ensureValueExists(value).getOrThrow()
     if (target === null) {
       return new ValueWrapperOutOfRange(value)
     }

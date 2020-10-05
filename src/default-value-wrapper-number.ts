@@ -5,14 +5,14 @@ export class DefaultValueWrapperNumber extends DefaultValueWrapper<number> imple
   public constructor(value: any, defaultValue?: number) {
     if (value !== undefined) {
       if (typeof value === 'number') {
-        super(value, value !== NaN && value !== Infinity, defaultValue)
+        super(value, !isNaN(value) && value !== Infinity, defaultValue)
       } else if (typeof value === 'string') {
         if (value.includes('.')) {
-          let numeric = parseFloat(value)
-          super(numeric, numeric !== NaN, defaultValue)
+          const numeric = parseFloat(value)
+          super(numeric, !isNaN(numeric), defaultValue)
         } else {
-          let numeric = parseInt(value)
-          super(numeric, numeric !== NaN, defaultValue)
+          const numeric = parseInt(value, 10)
+          super(numeric, !isNaN(numeric), defaultValue)
         }
       } else if (typeof value === 'boolean') {
         super(value ? 1 : 0, true, defaultValue)

@@ -3,7 +3,7 @@ import { ValueWrapper } from './value-wrapper'
 
 export class DefaultValueWrapper<T> implements ValueWrapper<T> {
   private _value: T
-  private _exists: boolean = false
+  private _exists = false
   private _defaultValue: T
   public constructor(value: T, exists?: boolean, defaultValue?: T) {
     this._value = value

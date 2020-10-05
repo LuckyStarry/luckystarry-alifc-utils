@@ -28,7 +28,7 @@ export class DefaultEventModule implements EventModule {
 
   public router(mapping: EventRouter): DefaultEventHandler {
     return this.register(async (c, u) => {
-      let p = mapping(c, u)
+      const p = mapping(c, u)
       if (p) {
         return await p(c, u)
       }
@@ -38,7 +38,7 @@ export class DefaultEventModule implements EventModule {
 
   public routes(configs: EventRoute[]): DefaultEventHandler {
     return this.router((c, u) => {
-      for (let route of configs) {
+      for (const route of configs) {
         if (route.predicate(c, u)) {
           return route.process
         }
