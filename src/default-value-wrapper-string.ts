@@ -4,10 +4,18 @@ import { ValueWrapperString } from './value-wrapper-string'
 export class DefaultValueWrapperString extends DefaultValueWrapper<string> implements ValueWrapperString {
   public constructor(value: any, defaultValue?: string) {
     if (value !== undefined) {
-      if (typeof value === 'string') {
-        super(value, true, defaultValue)
+      if (value === null) {
+        super(null, true, defaultValue)
       } else {
-        super(value + '', false, defaultValue)
+        if (typeof value === 'string') {
+          super(value, true, defaultValue)
+        } else if (typeof value === 'function') {
+          super(undefined, false, defaultValue)
+        } else if (typeof value === 'object') {
+          super(undefined, false, defaultValue)
+        } else {
+          super(`${value}`, true, defaultValue)
+        }
       }
     } else {
       super(undefined, false, defaultValue)
