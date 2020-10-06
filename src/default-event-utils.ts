@@ -1,13 +1,14 @@
 import { DefaultProfileWrapper } from './default-profile-wrapper'
-import { DefaultValueWrapper } from './default-value-wrapper'
+import { DefaultValueWrapperAny } from './default-value-wrapper-any'
 import { DefaultValueWrapperNumber } from './default-value-wrapper-number'
+import { DefaultValueWrapperString } from './default-value-wrapper-string'
 import { EventContext } from './event-context'
 import { EventResult } from './event-result'
 import { EventUtils } from './event-utils'
 import { ProfileWrapper } from './profile-wrapper'
 import { ValueWrapper } from './value-wrapper'
 import { ValueWrapperNumber } from './value-wrapper-number'
-import { ValueWrapperOutOfRange } from './value-wrapper-out-of-range'
+import { ValueWrapperString } from './value-wrapper-string'
 
 export class DefaultEventUtils implements EventUtils {
   private _context: EventContext
@@ -38,51 +39,16 @@ export class DefaultEventUtils implements EventUtils {
     return DefaultProfileWrapper.createFor403()
   }
 
-  public ensureValueExists<T>(value: T): ValueWrapper<T> {
-    return new DefaultValueWrapper<T>(value)
+  public wrapValue<T>(value: T): ValueWrapper<T> {
+    return new DefaultValueWrapperAny(value)
   }
 
-  public ensureNumberExists(value: number): ValueWrapperNumber {
+  public wrapValueAsNumber(value: any): ValueWrapperNumber {
     return new DefaultValueWrapperNumber(value)
   }
 
-  public ensureNumberInRange(value: number, min: number, max: number): ValueWrapperNumber {
-    const target = this.ensureValueExists(value).getOrThrow()
-    if (target === null) {
-      return new ValueWrapperOutOfRange(value, min)
-    }
-    if (target < min) {
-      return new ValueWrapperOutOfRange(value, min)
-    }
-    if (target > max) {
-      return new ValueWrapperOutOfRange(value, max)
-    }
-    return new DefaultValueWrapperNumber(value)
-  }
-
-  public ensureStringInRange(value: string, max: number, min?: number): ValueWrapper<string> {
-    const target = this.ensureValueExists(value).getOrThrow()
-    if (target === null) {
-      return new ValueWrapperOutOfRange(value)
-    }
-    if (max && target.length > max) {
-      return new ValueWrapperOutOfRange(value)
-    }
-    if (min && target.length < min) {
-      return new ValueWrapperOutOfRange(value)
-    }
-    return new DefaultValueWrapper(value, true)
-  }
-
-  public ensureStringMatchRegex(value: string, regex: RegExp): ValueWrapper<string> {
-    const target = this.ensureValueExists(value).getOrThrow()
-    if (target === null) {
-      return new ValueWrapperOutOfRange(value)
-    }
-    if (!regex.test(target)) {
-      return new ValueWrapperOutOfRange(value)
-    }
-    return new DefaultValueWrapper(value, true)
+  public wrapValueAsString(value: any): ValueWrapperString {
+    return new DefaultValueWrapperString(value)
   }
 
   public ok(payload?: any, message?: string): EventResult {

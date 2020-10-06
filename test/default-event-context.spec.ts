@@ -2,7 +2,7 @@
 import { expect } from 'chai'
 import { DefaultEventContext } from '../src/default-event-context'
 
-describe('./src/event-context-default', function () {
+describe('./src/default-event-context', function () {
   it('DefaultEventContext 存在', function () {
     expect(DefaultEventContext).not.null
     expect(DefaultEventContext).not.undefined

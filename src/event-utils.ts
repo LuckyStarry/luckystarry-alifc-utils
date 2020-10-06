@@ -1,16 +1,17 @@
 import { EventResult } from './event-result'
 import { ProfileWrapper } from './profile-wrapper'
 import { ValueWrapper } from './value-wrapper'
+import { ValueWrapperNumber } from './value-wrapper-number'
+import { ValueWrapperString } from './value-wrapper-string'
 
 export interface EventUtils {
   ensureLogin(): ProfileWrapper
   ensureInRole(role: string): ProfileWrapper
   ensureInAnyRole(roles: string[]): ProfileWrapper
 
-  ensureValueExists<T>(value: T): ValueWrapper<T>
-  ensureNumberInRange(value: number, min: number, max: number): ValueWrapper<number>
-  ensureStringInRange(value: string, max: number, min?: number): ValueWrapper<string>
-  ensureStringMatchRegex(value: string, regex: RegExp): ValueWrapper<string>
+  wrapValue<T>(value: T): ValueWrapper<T>
+  wrapValueAsNumber(value: any): ValueWrapperNumber
+  wrapValueAsString(value: any): ValueWrapperString
 
   ok(payload?: any, message?: string): EventResult
   fail(message?: string, payload?: any): EventResult

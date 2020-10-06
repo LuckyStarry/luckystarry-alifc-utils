@@ -5,7 +5,7 @@ import { DefaultEventHandler } from '../src/default-event-handler'
 import { DefaultEventModule } from '../src/default-event-module'
 import { DefaultEventUtilsFactory } from '../src/default-event-utils-factory'
 
-describe('./src/event-module-default', function () {
+describe('./src/default-event-module', function () {
   it('DefaultEventModule 存在', function () {
     expect(DefaultEventModule).not.null
     expect(DefaultEventModule).not.undefined
