@@ -12,7 +12,11 @@ export class DefaultEventContext implements EventContext {
 
   public ensure() {
     if (!this._parsed) {
-      const e = Object.assign({ pathParameters: {}, queryParameters: {}, headers: {} }, JSON.parse(new String(this._event).valueOf()))
+      let event = JSON.parse(new String(this._event).valueOf())
+      if (event && event.triggerName && event.triggerTime) {
+        event = JSON.parse(event.payload)
+      }
+      const e = Object.assign({ pathParameters: {}, queryParameters: {}, headers: {} }, event)
       let body = e.body
       if (e.isBase64Encoded) {
         const bytes = Buffer.from(e.body, 'base64')
