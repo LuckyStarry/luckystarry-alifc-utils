@@ -41,6 +41,24 @@ describe('./src/default-event-utils', function () {
     expect(new DefaultEventUtils(new FakeContext()).wrapValue(0).getOrThrow()).is.eq(0)
     expect(new DefaultEventUtils(new FakeContext()).wrapValue(12345).getOrThrow()).is.eq(12345)
   })
+
+  it('DefaultEventUtils.wrapValueAsNumber 正常 (get)', function () {
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsNumber(undefined).get()).is.undefined
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsNumber(null).get()).is.null
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsNumber('').get()).is.undefined
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsNumber('12345').get()).is.eq(12345)
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsNumber(0).get()).is.eq(0)
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsNumber(12345).get()).is.eq(12345)
+  })
+
+  it('DefaultEventUtils.wrapValueAsString 正常 (get)', function () {
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsString(undefined).get()).is.undefined
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsString(null).get()).is.null
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsString('').get()).is.eq('')
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsString('12345').get()).is.eq('12345')
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsString(0).get()).is.eq('0')
+    expect(new DefaultEventUtils(new FakeContext()).wrapValueAsString(12345).get()).is.eq('12345')
+  })
 })
 
 class FakeContext extends DefaultEventContext {

@@ -34,47 +34,47 @@ export class DefaultValueWrapper<T> implements ValueWrapper<T> {
     return this._exists
   }
 
-  public ensureExists(): this {
+  public ensureExists(message?: string): this {
     if (this.isExists()) {
       return this
     }
-    throw new EventErrorValueNotExists()
+    throw new EventErrorValueNotExists(message)
   }
 
-  public ensureGreaterThan(other: T): this {
-    return this.ensureFit((value) => value > other, `参数的值必须大于 ${other}`)
+  public ensureGreaterThan(other: T, message?: string): this {
+    return this.ensureFit((value) => value > other, message || `参数的值必须大于 ${other}`)
   }
 
-  public ensureGreaterThanOrEqual(other: T): this {
-    return this.ensureFit((value) => value >= other, `参数的值必须大于或等于 ${other}`)
+  public ensureGreaterThanOrEqual(other: T, message?: string): this {
+    return this.ensureFit((value) => value >= other, message || `参数的值必须大于或等于 ${other}`)
   }
 
-  public ensureLowerThan(other: T): this {
-    return this.ensureFit((value) => value < other, `参数的值必须小于 ${other}`)
+  public ensureLowerThan(other: T, message?: string): this {
+    return this.ensureFit((value) => value < other, message || `参数的值必须小于 ${other}`)
   }
 
-  public ensureLowerThanOrEqual(other: T): this {
-    return this.ensureFit((value) => value <= other, `参数的值必须小于或等于 ${other}`)
+  public ensureLowerThanOrEqual(other: T, message?: string): this {
+    return this.ensureFit((value) => value <= other, message || `参数的值必须小于或等于 ${other}`)
   }
 
-  public ensureEqualTo(other: T): this {
-    return this.ensureFit((value) => value === other, `参数的值必须等于 ${other}`)
+  public ensureEqualTo(other: T, message?: string): this {
+    return this.ensureFit((value) => value === other, message || `参数的值必须等于 ${other}`)
   }
 
-  public ensureNotEqualTo(other: T): this {
-    return this.ensureFit((value) => value !== other, `参数的值必须不等于 ${other}`)
+  public ensureNotEqualTo(other: T, message?: string): this {
+    return this.ensureFit((value) => value !== other, message || `参数的值必须不等于 ${other}`)
   }
 
-  public ensureNotNull(): this {
-    return this.ensureFit((value) => value !== null, `参数的值必须不可为 NULL`)
+  public ensureNotNull(message?: string): this {
+    return this.ensureFit((value) => value !== null, message || `参数的值必须不可为 NULL`)
   }
 
-  public ensureIn(list: T[]): this {
-    return this.ensureFit((value) => list.includes(value), `参数的值不在范围内`)
+  public ensureIn(list: T[], message?: string): this {
+    return this.ensureFit((value) => list.includes(value), message || `参数的值不在范围内`)
   }
 
-  public ensureNotIn(list: T[]): this {
-    return this.ensureFit((value) => !list.includes(value), `参数的值在非法范围内`)
+  public ensureNotIn(list: T[], message?: string): this {
+    return this.ensureFit((value) => !list.includes(value), message || `参数的值在非法范围内`)
   }
 
   public ensureFit(predicate: (value: T) => boolean, message?: string): this {
@@ -86,7 +86,7 @@ export class DefaultValueWrapper<T> implements ValueWrapper<T> {
 
   public eitherExists(or: T): this {
     if (!this.isExists()) {
-      this._value = or
+      this.value = or
     }
     return this
   }

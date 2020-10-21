@@ -109,6 +109,15 @@ describe('./src/default-value-wrapper-number', function () {
     expect(new DefaultValueWrapperNumber('1.23', 60).getOrDefault()).is.eq(1.23)
   })
 
+  it('DefaultValueWrapperNumber.ensureExists 正常', function () {
+    expect(() => new DefaultValueWrapperNumber(undefined, 10).ensureExists().get()).to.throw()
+    expect(new DefaultValueWrapperNumber(null, 20).ensureExists().get()).is.null
+    expect(new DefaultValueWrapperNumber(-1, 30).ensureExists().get()).is.eq(-1)
+    expect(new DefaultValueWrapperNumber(0, 40).ensureExists().get()).is.eq(0)
+    expect(new DefaultValueWrapperNumber(1, 50).ensureExists().get()).is.eq(1)
+    expect(new DefaultValueWrapperNumber(1.23, 60).ensureExists().get()).is.eq(1.23)
+  })
+
   it('DefaultValueWrapperNumber.ensureGreaterThan 正常', function () {
     expect(() => new DefaultValueWrapperNumber(undefined, 10).ensureGreaterThan(1).get()).to.throw()
     expect(() => new DefaultValueWrapperNumber(null, 20).ensureGreaterThan(1).get()).to.throw()
@@ -163,6 +172,42 @@ describe('./src/default-value-wrapper-number', function () {
     expect(new DefaultValueWrapperNumber(1.23, 60).ensureNotEqualTo(1).get()).is.eq(1.23)
   })
 
+  it('DefaultValueWrapperNumber.ensureIn 正常', function () {
+    expect(() => new DefaultValueWrapperNumber(undefined, 10).ensureIn([1, 2, 3, 4, 5]).get()).to.throw()
+    expect(() => new DefaultValueWrapperNumber(null, 20).ensureIn([1, 2, 3, 4, 5]).get()).to.throw()
+    expect(() => new DefaultValueWrapperNumber(-1, 30).ensureIn([1, 2, 3, 4, 5]).get()).to.throw()
+    expect(() => new DefaultValueWrapperNumber(0, 40).ensureIn([1, 2, 3, 4, 5]).get()).to.throw()
+    expect(new DefaultValueWrapperNumber(1, 50).ensureIn([1, 2, 3, 4, 5]).get()).is.eq(1)
+    expect(() => new DefaultValueWrapperNumber(1.23, 60).ensureIn([1, 2, 3, 4, 5]).get()).is.to.throw()
+  })
+
+  it('DefaultValueWrapperNumber.ensureNotIn 正常', function () {
+    expect(() => new DefaultValueWrapperNumber(undefined, 10).ensureNotIn([1, 2, 3, 4, 5]).get()).to.throw()
+    expect(new DefaultValueWrapperNumber(null, 20).ensureNotIn([1, 2, 3, 4, 5]).get()).is.null
+    expect(new DefaultValueWrapperNumber(-1, 30).ensureNotIn([1, 2, 3, 4, 5]).get()).is.eq(-1)
+    expect(new DefaultValueWrapperNumber(0, 40).ensureNotIn([1, 2, 3, 4, 5]).get()).is.eq(0)
+    expect(() => new DefaultValueWrapperNumber(1, 50).ensureNotIn([1, 2, 3, 4, 5]).get()).to.throw()
+    expect(new DefaultValueWrapperNumber(1.23, 60).ensureNotIn([1, 2, 3, 4, 5]).get()).is.eq(1.23)
+  })
+
+  it('DefaultValueWrapperNumber.ensureNotNull 正常', function () {
+    expect(() => new DefaultValueWrapperNumber(undefined, 10).ensureNotNull().get()).to.throw()
+    expect(() => new DefaultValueWrapperNumber(null, 20).ensureNotNull().get()).to.throw()
+    expect(new DefaultValueWrapperNumber(-1, 30).ensureNotNull().get()).is.eq(-1)
+    expect(new DefaultValueWrapperNumber(0, 40).ensureNotNull().get()).is.eq(0)
+    expect(new DefaultValueWrapperNumber(1, 50).ensureNotNull().get()).is.eq(1)
+    expect(new DefaultValueWrapperNumber(1.23, 60).ensureNotNull().get()).is.eq(1.23)
+  })
+
+  it('DefaultValueWrapperNumber.eitherExists 正常', function () {
+    expect(new DefaultValueWrapperNumber(undefined, 10).eitherExists(100).get()).is.eq(100)
+    expect(new DefaultValueWrapperNumber(null, 20).eitherExists(200).get()).is.null
+    expect(new DefaultValueWrapperNumber(-1, 30).eitherExists(300).get()).is.eq(-1)
+    expect(new DefaultValueWrapperNumber(0, 40).eitherExists(400).get()).is.eq(0)
+    expect(new DefaultValueWrapperNumber(1, 50).eitherExists(500).get()).is.eq(1)
+    expect(new DefaultValueWrapperNumber(1.23, 60).eitherExists(600).get()).is.eq(1.23)
+  })
+
   it('DefaultValueWrapperNumber.eitherGreaterThan 正常', function () {
     expect(() => new DefaultValueWrapperNumber(undefined, 10).eitherGreaterThan(1, 10000).get()).to.throw()
     expect(new DefaultValueWrapperNumber(null, 20).eitherGreaterThan(1, 20000).get()).is.eq(20000)
@@ -170,6 +215,7 @@ describe('./src/default-value-wrapper-number', function () {
     expect(new DefaultValueWrapperNumber(0, 40).eitherGreaterThan(1, 40000).get()).is.eq(40000)
     expect(new DefaultValueWrapperNumber(1, 50).eitherGreaterThan(1, 50000).get()).is.eq(50000)
     expect(new DefaultValueWrapperNumber(1.23, 60).eitherGreaterThan(1, 60000).get()).is.eq(1.23)
+    expect(new DefaultValueWrapperNumber(0, 70).eitherGreaterThan(1).get()).is.eq(1)
   })
 
   it('DefaultValueWrapperNumber.eitherGreaterThanOrEqual 正常', function () {
@@ -179,6 +225,7 @@ describe('./src/default-value-wrapper-number', function () {
     expect(new DefaultValueWrapperNumber(0, 40).eitherGreaterThanOrEqual(1, 40000).get()).is.eq(40000)
     expect(new DefaultValueWrapperNumber(1, 50).eitherGreaterThanOrEqual(1, 50000).get()).is.eq(1)
     expect(new DefaultValueWrapperNumber(1.23, 60).eitherGreaterThanOrEqual(1, 60000).get()).is.eq(1.23)
+    expect(new DefaultValueWrapperNumber(0, 70).eitherGreaterThanOrEqual(1).get()).is.eq(1)
   })
 
   it('DefaultValueWrapperNumber.eitherLowerThan 正常', function () {
@@ -188,6 +235,7 @@ describe('./src/default-value-wrapper-number', function () {
     expect(new DefaultValueWrapperNumber(0, 40).eitherLowerThan(1, 40000).get()).is.eq(0)
     expect(new DefaultValueWrapperNumber(1, 50).eitherLowerThan(1, 50000).get()).is.eq(50000)
     expect(new DefaultValueWrapperNumber(1.23, 60).eitherLowerThan(1, 60000).get()).is.eq(60000)
+    expect(new DefaultValueWrapperNumber(10, 70).eitherLowerThan(1).get()).is.eq(1)
   })
 
   it('DefaultValueWrapperNumber.eitherLowerThanOrEqual 正常', function () {
@@ -197,6 +245,7 @@ describe('./src/default-value-wrapper-number', function () {
     expect(new DefaultValueWrapperNumber(0, 40).eitherLowerThanOrEqual(1, 40000).get()).is.eq(0)
     expect(new DefaultValueWrapperNumber(1, 50).eitherLowerThanOrEqual(1, 50000).get()).is.eq(1)
     expect(new DefaultValueWrapperNumber(1.23, 60).eitherLowerThanOrEqual(1, 60000).get()).is.eq(60000)
+    expect(new DefaultValueWrapperNumber(10, 70).eitherLowerThanOrEqual(1).get()).is.eq(1)
   })
 
   it('DefaultValueWrapperNumber.eitherEqualTo 正常', function () {
@@ -217,6 +266,33 @@ describe('./src/default-value-wrapper-number', function () {
     expect(new DefaultValueWrapperNumber(1.23, 60).eitherNotEqualTo(1, 60000).get()).is.eq(1.23)
   })
 
+  it('DefaultValueWrapperNumber.eitherIn 正常', function () {
+    expect(() => new DefaultValueWrapperNumber(undefined, 10).eitherIn([1, 2, 3, 4, 5], 100).get()).to.throw()
+    expect(new DefaultValueWrapperNumber(null, 20).eitherIn([1, 2, 3, 4, 5], 200).get()).is.eq(200)
+    expect(new DefaultValueWrapperNumber(-1, 30).eitherIn([1, 2, 3, 4, 5], 300).get()).is.eq(300)
+    expect(new DefaultValueWrapperNumber(0, 40).eitherIn([1, 2, 3, 4, 5], 400).get()).is.eq(400)
+    expect(new DefaultValueWrapperNumber(1, 50).eitherIn([1, 2, 3, 4, 5], 500).get()).is.eq(1)
+    expect(new DefaultValueWrapperNumber(1.23, 60).eitherIn([1, 2, 3, 4, 5], 600).get()).is.eq(600)
+  })
+
+  it('DefaultValueWrapperNumber.eitherNotIn 正常', function () {
+    expect(() => new DefaultValueWrapperNumber(undefined, 10).eitherNotIn([1, 2, 3, 4, 5], 100).get()).to.throw()
+    expect(new DefaultValueWrapperNumber(null, 20).eitherNotIn([1, 2, 3, 4, 5], 200).get()).is.null
+    expect(new DefaultValueWrapperNumber(-1, 30).eitherNotIn([1, 2, 3, 4, 5], 300).get()).is.eq(-1)
+    expect(new DefaultValueWrapperNumber(0, 40).eitherNotIn([1, 2, 3, 4, 5], 400).get()).is.eq(0)
+    expect(new DefaultValueWrapperNumber(1, 50).eitherNotIn([1, 2, 3, 4, 5], 500).get()).is.eq(500)
+    expect(new DefaultValueWrapperNumber(1.23, 60).eitherNotIn([1, 2, 3, 4, 5], 600).get()).is.eq(1.23)
+  })
+
+  it('DefaultValueWrapperNumber.eitherNotNull 正常', function () {
+    expect(() => new DefaultValueWrapperNumber(undefined, 10).eitherNotNull(100).get()).to.throw()
+    expect(new DefaultValueWrapperNumber(null, 20).eitherNotNull(200).get()).is.eq(200)
+    expect(new DefaultValueWrapperNumber(-1, 30).eitherNotNull(300).get()).is.eq(-1)
+    expect(new DefaultValueWrapperNumber(0, 40).eitherNotNull(400).get()).is.eq(0)
+    expect(new DefaultValueWrapperNumber(1, 50).eitherNotNull(500).get()).is.eq(1)
+    expect(new DefaultValueWrapperNumber(1.23, 60).eitherNotNull(600).get()).is.eq(1.23)
+  })
+
   it('DefaultValueWrapperNumber.guard 正常', function () {
     expect(new DefaultValueWrapperNumber(undefined, 10).guard().get()).is.eq(0)
     expect(new DefaultValueWrapperNumber(null, 20).guard().get()).is.eq(0)
@@ -233,5 +309,35 @@ describe('./src/default-value-wrapper-number', function () {
     expect(new DefaultValueWrapperNumber(0, 40).amazing().get()).is.eq(0)
     expect(new DefaultValueWrapperNumber(1, 50).amazing().get()).eq(1)
     expect(new DefaultValueWrapperNumber(1.23, 60).amazing().get()).is.eq(1.23)
+  })
+
+  it('DefaultValueWrapperNumber.ensureGreaterThan 异常内容正常', function () {
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureGreaterThan(20)).to.throw(`参数的值必须大于 20`)
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureGreaterThan(20, '值需要大于20')).to.throw(`值需要大于20`)
+  })
+
+  it('DefaultValueWrapperNumber.ensureGreaterThanOrEqual 异常内容正常', function () {
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureGreaterThanOrEqual(20)).to.throw(`参数的值必须大于或等于 20`)
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureGreaterThanOrEqual(20, '值需要大于或等于20')).to.throw(`值需要大于或等于20`)
+  })
+
+  it('DefaultValueWrapperNumber.ensureLowerThan 异常内容正常', function () {
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureLowerThan(1)).to.throw(`参数的值必须小于 1`)
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureLowerThan(1, '值需要小于1')).to.throw(`值需要小于1`)
+  })
+
+  it('DefaultValueWrapperNumber.ensureLowerThanOrEqual 异常内容正常', function () {
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureLowerThanOrEqual(1)).to.throw(`参数的值必须小于或等于 1`)
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureLowerThanOrEqual(1, '值需要小于或等于1')).to.throw(`值需要小于或等于1`)
+  })
+
+  it('DefaultValueWrapperNumber.ensureEqualTo 异常内容正常', function () {
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureEqualTo(100)).to.throw(`参数的值必须等于 100`)
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureEqualTo(100, '值需要等于100')).to.throw(`值需要等于100`)
+  })
+
+  it('DefaultValueWrapperNumber.ensureNotEqualTo 异常内容正常', function () {
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureNotEqualTo(10)).to.throw(`参数的值必须不等于 10`)
+    expect(() => new DefaultValueWrapperNumber(10, 50).ensureNotEqualTo(10, '值需要不等于10')).to.throw(`值需要不等于10`)
   })
 })
