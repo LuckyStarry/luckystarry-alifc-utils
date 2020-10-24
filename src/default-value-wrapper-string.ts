@@ -1,4 +1,6 @@
 import { DefaultValueWrapper } from './default-value-wrapper'
+import { EventErrorValueIsNull } from './event-error-value-is-null'
+import { EventErrorValueNotExists } from './event-error-value-not-exists'
 import { ValueWrapperString } from './value-wrapper-string'
 
 export class DefaultValueWrapperString extends DefaultValueWrapper<string> implements ValueWrapperString {
@@ -61,7 +63,35 @@ export class DefaultValueWrapperString extends DefaultValueWrapper<string> imple
   }
 
   public trim(): this {
+    if (!this.isExists()) {
+      throw new EventErrorValueNotExists()
+    }
+    if (this.value === null) {
+      throw new EventErrorValueIsNull()
+    }
     this.value = this.value.trim()
+    return this
+  }
+
+  public toUpperCase(): this {
+    if (!this.isExists()) {
+      throw new EventErrorValueNotExists()
+    }
+    if (this.value === null) {
+      throw new EventErrorValueIsNull()
+    }
+    this.value = this.value.toUpperCase()
+    return this
+  }
+
+  public toLowerCase(): this {
+    if (!this.isExists()) {
+      throw new EventErrorValueNotExists()
+    }
+    if (this.value === null) {
+      throw new EventErrorValueIsNull()
+    }
+    this.value = this.value.toLowerCase()
     return this
   }
 }

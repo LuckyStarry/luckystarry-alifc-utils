@@ -195,4 +195,37 @@ describe('./src/default-value-wrapper-string', function () {
     expect(new DefaultValueWrapperString('abc def', 'G').amazing().get()).is.eq('abc def')
     expect(new DefaultValueWrapperString(' abc def ghi   ', 'H').amazing().get()).is.eq('abc def ghi')
   })
+
+  it('DefaultValueWrapperString.get 正常', function () {
+    expect(() => new DefaultValueWrapperString(undefined, 'A').trim().get()).to.throw()
+    expect(() => new DefaultValueWrapperString(null, 'B').trim().get()).to.throw()
+    expect(new DefaultValueWrapperString('', 'C').trim().get()).is.eq('')
+    expect(new DefaultValueWrapperString('0', 'D').trim().get()).is.eq('0')
+    expect(new DefaultValueWrapperString('1', 'E').trim().get()).is.eq('1')
+    expect(new DefaultValueWrapperString('abc', 'F').trim().get()).is.eq('abc')
+    expect(new DefaultValueWrapperString('abc def', 'G').trim().get()).is.eq('abc def')
+    expect(new DefaultValueWrapperString(' abc def ghi   ', 'H').trim().get()).is.eq('abc def ghi')
+  })
+
+  it('DefaultValueWrapperString.toUpperCase 正常', function () {
+    expect(() => new DefaultValueWrapperString(undefined, 'A').toUpperCase().get()).to.throw()
+    expect(() => new DefaultValueWrapperString(null, 'B').toUpperCase().get()).to.throw()
+    expect(new DefaultValueWrapperString('', 'C').toUpperCase().get()).is.eq('')
+    expect(new DefaultValueWrapperString('0', 'D').toUpperCase().get()).is.eq('0')
+    expect(new DefaultValueWrapperString('1', 'E').toUpperCase().get()).is.eq('1')
+    expect(new DefaultValueWrapperString('abc', 'F').toUpperCase().get()).is.eq('ABC')
+    expect(new DefaultValueWrapperString('aBc dEf', 'G').toUpperCase().get()).is.eq('ABC DEF')
+    expect(new DefaultValueWrapperString(' AbC def gHi   ', 'H').toUpperCase().get()).is.eq(' ABC DEF GHI   ')
+  })
+
+  it('DefaultValueWrapperString.toLowerCase 正常', function () {
+    expect(() => new DefaultValueWrapperString(undefined, 'A').toLowerCase().get()).to.throw()
+    expect(() => new DefaultValueWrapperString(null, 'B').toLowerCase().get()).to.throw()
+    expect(new DefaultValueWrapperString('', 'C').toLowerCase().get()).is.eq('')
+    expect(new DefaultValueWrapperString('0', 'D').toLowerCase().get()).is.eq('0')
+    expect(new DefaultValueWrapperString('1', 'E').toLowerCase().get()).is.eq('1')
+    expect(new DefaultValueWrapperString('abc', 'F').toLowerCase().get()).is.eq('abc')
+    expect(new DefaultValueWrapperString('aBc dEf', 'G').toLowerCase().get()).is.eq('abc def')
+    expect(new DefaultValueWrapperString(' AbC def gHi   ', 'H').toLowerCase().get()).is.eq(' abc def ghi   ')
+  })
 })

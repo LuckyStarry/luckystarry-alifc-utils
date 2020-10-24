@@ -14,4 +14,6 @@ export interface ValueWrapperString extends ValueWrapper<string> {
   amazing(): this
   guard(): this
   trim(): this
+  toUpperCase(): this
+  toLowerCase(): this
 }
