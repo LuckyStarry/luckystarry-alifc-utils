@@ -67,16 +67,38 @@ export class DefaultEventContext implements EventContext {
 
   public get profile(): Profile {
     const sub = this.getFromHeaders('x-jwt-sub')
+    const ver = this.getFromHeaders('x-jwt-ver')
     const text = this.getFromHeaders('x-jwt-profile')
     if (sub && text) {
-      const json = JSON.parse(text)
-      if (json) {
-        return {
-          id: sub || '',
-          name: json.name || '',
-          avatar: json.avatar || '',
-          roles: json.roles || []
-        }
+      switch (ver) {
+        case '20200130':
+          {
+            const json = JSON.parse(text)
+            if (json) {
+              return {
+                id: sub || '',
+                name: json.name || '',
+                nickname: json.nickname || '',
+                avatar: json.avatar || '',
+                roles: json.roles || []
+              }
+            }
+          }
+          break
+        case '20210317':
+          {
+            const json = JSON.parse(Buffer.from(text, 'base64').toString())
+            if (json) {
+              return {
+                id: sub || '',
+                name: json.name || '',
+                nickname: json.nickname || '',
+                avatar: json.avatar || '',
+                roles: json.roles || []
+              }
+            }
+          }
+          break
       }
     }
   }
